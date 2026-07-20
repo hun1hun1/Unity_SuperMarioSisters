@@ -121,4 +121,17 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log("무적 시간이 끝났습니다.");
         }
     }
+
+    public void ResetHealth()
+    {
+        currentHp = maxHp;
+        isDead = false;
+        isInvincible = false;
+
+        invincibleTimer = 0.0f;
+        ClampHp();
+        UpdateHpText();
+        PrintHealth();
+        Debug.Log("체력이 초기화되었습니다.");
+    }
 }
