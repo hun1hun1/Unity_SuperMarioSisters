@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 7864005623463120980}
   - component: {fileID: 4329678595859598521}
   m_Layer: 0
-  m_Name: JunglePalette
+  m_Name: MyPalette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
