@@ -25,7 +25,7 @@ public class PlayerItemCollector : MonoBehaviour
         item.Collect();
     }
 
-    void AddScore(int scoreAmount)
+    public void AddScore(int scoreAmount)
     {
         totalScore = totalScore + scoreAmount;
         Debug.Log("현재 점수: " + totalScore);

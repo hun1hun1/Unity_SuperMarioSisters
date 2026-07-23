@@ -110,20 +110,6 @@ public class PlayerController : MonoBehaviour
         playerAnimator.SetBool("IsGrounded", isGrounded);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        CollectableItem item;
-        item = other.GetComponent<CollectableItem>();
-
-        if (item == null)
-        {
-            return;
-        }
-
-        AddScore(item.GetScoreValue());
-        item.Collect();
-    }
-
     void Move()
     {
         playerBody.linearVelocity = new Vector2(moveDirection * moveSpeed, playerBody.linearVelocity.y);
@@ -170,12 +156,6 @@ public class PlayerController : MonoBehaviour
                 isGrounded = false;
             }
         }
-    }
-
-    void AddScore(int scoreAmount)
-    {
-        totalScore += scoreAmount;
-        Debug.Log("현재 점수: " + totalScore);
     }
 
     void CheckGround()
