@@ -5,23 +5,22 @@ public class EnemyHealth : MonoBehaviour
     public int maxHp = 3;
 
     private int currentHp = 0;
+
+    public int scoreValue = 100;
     private bool isDead = false;
-    private int lastDamage = 0;
-    private bool debugHp = false;
+    private GameManager gameManager;
+    //private int lastDamage = 0;
+    //private bool debugHp = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         InitializeHealth();
-    }
 
-    private void Update()
-    {
-        ChangeDebugMode();
-        
-        if (debugHp)
+        gameManager = FindFirstObjectByType<GameManager>();
+        if (gameManager != null)
         {
-            Debug.Log("적 현재 체력: " + currentHp);
+            gameManager.RegisterEnemy();
         }
     }
 
@@ -39,7 +38,6 @@ public class EnemyHealth : MonoBehaviour
         }
 
         ReduceHealth(damageAmount);
-        lastDamage = damageAmount;
 
         if (CheckDeath() == true)
         {
@@ -51,9 +49,20 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
+        if (isDead == true)
+        {
+            return;
+        }
+
         isDead = true;
+
+        if (gameManager != null)
+        {
+            gameManager.NotifyEnemyDeath(scoreValue);
+        }
+
         gameObject.SetActive(false);
-        Debug.Log("마지막으로 받은 데미지: " + lastDamage);
+        //Debug.Log("마지막으로 받은 데미지: " + lastDamage);
     }
 
     void ReduceHealth(int damageAmount)
@@ -66,11 +75,11 @@ public class EnemyHealth : MonoBehaviour
         return currentHp <= 0;
     }
 
-    void ChangeDebugMode()
-    {
-        if (Input.GetKeyDown(KeyCode.H) == true)
-        {
-            debugHp = !debugHp;
-        }
-    }
+    //void ChangeDebugMode()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.H) == true)
+    //    {
+    //        debugHp = !debugHp;
+    //    }
+    //}
 }

@@ -12,13 +12,8 @@ public class PlayerAttack : MonoBehaviour
     private bool isAttacking = false;
     private bool canAttack = true;
     private float coolTimer = 0.0f;
-    private int hitCount = 0;
-    private PlayerItemCollector playerItemCollector;
-
-    private void Start()
-    {
-        playerItemCollector = GetComponent<PlayerItemCollector>();
-    }
+    //private int hitCount = 0;
+    //private PlayerItemCollector playerItemCollector;
 
     // Update is called once per frame
     void Update()
@@ -69,12 +64,12 @@ public class PlayerAttack : MonoBehaviour
             {
                 enemyHealth.TakeDamage(attackDamage);
                 Debug.Log("적에게 데미지를 전달했습니다: " + attackDamage);
-                hitCount++;
-                Debug.Log("현재 공격 성공 횟수: " + hitCount);
-                if (enemyHealth.CheckDeath() == true)
-                {
-                    playerItemCollector.AddScore(enemyHealth.maxHp);
-                }
+                //hitCount++;
+                //Debug.Log("현재 공격 성공 횟수: " + hitCount);
+                //if (enemyHealth.CheckDeath() == true)
+                //{
+                //    playerItemCollector.AddScore(enemyHealth.maxHp);
+                //}
             }
         }
         else
