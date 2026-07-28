@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CollectableItem : MonoBehaviour
+public class CollectibleItem : MonoBehaviour
 {
     public string itemName = "Coin";
     public int scoreValue = 1;

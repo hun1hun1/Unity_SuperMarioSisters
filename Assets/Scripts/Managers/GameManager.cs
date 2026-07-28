@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,10 @@ public class GameManager : MonoBehaviour
     public int remainingEnemyCount = 0;
     public bool isGameCleared = false;
 
+    public string startSceneName = "StartScene";
+    public string playSceneName = "PlayScene";
+    public string clearSceneName = "ClearScene";
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -14,6 +19,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("플레이어 체력: " + playerHp);
         Debug.Log("남은 적 수: " + remainingEnemyCount);
         Debug.Log("클리어 여부: " + isGameCleared);
+
+        PrintCurrentScene();
     }
 
     public void AddScore(int amount)
@@ -86,11 +93,40 @@ public class GameManager : MonoBehaviour
 
         isGameCleared = true;
         Debug.Log("스테이지 클리어");
+
+        LoadClaerScene();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void LoadPlayScene()
+    {
+        SceneManager.LoadScene(playSceneName);
+    }
+
+    public void LoadStartScene()
+    {
+        SceneManager.LoadScene(startSceneName);
+    }
+
+    public void LoadClaerScene()
+    {
+        SceneManager.LoadScene(clearSceneName);
+        Debug.Log(clearSceneName + "으로 씬을 전환합니다.");
+    }
+
+    public void RestartPlayScene()
+    {
+        SceneManager.LoadScene(playSceneName);
+    }
+
+    void PrintCurrentScene()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        Debug.Log("현재 씬: " + currentScene.name);
     }
 }

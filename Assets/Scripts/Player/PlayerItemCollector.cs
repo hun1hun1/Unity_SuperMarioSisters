@@ -13,8 +13,8 @@ public class PlayerItemCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        CollectableItem item;
-        item = other.GetComponent<CollectableItem>();
+        CollectibleItem item;
+        item = other.GetComponent<CollectibleItem>();
 
         if (item == null)
         {
