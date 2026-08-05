@@ -14,12 +14,15 @@ public class PlayerController : MonoBehaviour
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
 
+    public GameManager gameManager;
+
     float moveDirection = 0.0f;
 
     bool isGrounded = false;
 
     Rigidbody2D playerBody;
     Collider2D playerCollider;
+    SpriteRenderer spriteRenderer;
     Animator playerAnimator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,6 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         playerBody = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<Collider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
 
         canMove = true;
@@ -38,6 +42,7 @@ public class PlayerController : MonoBehaviour
         PrintGroundState();
         CheckInput();
         CheckGround();
+        UpdateDirectionView();
 
         if (canMove == true)
         {
@@ -90,6 +95,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             Debug.Log("현재 위치: " + transform.position);
+            Debug.Log("플레이어 체력: " + gameManager.GetPlayerHp());
+            Debug.Log("현재 점수: " + gameManager.GetScore());
+            Debug.Log("남은 적 수: " + gameManager.GetEnemyCount());
         }
     }
 
@@ -190,6 +198,22 @@ public class PlayerController : MonoBehaviour
             Debug.Log("바닥에 닿아 있는가: " + isGrounded);
             Debug.Log("현재 y 속도: " + playerBody.linearVelocity.y);
         }
+    }
 
+    void UpdateDirectionView()
+    {
+        if (spriteRenderer == null)
+        {
+            return;
+        }
+
+        if (moveDirection > 0.0f)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if(moveDirection < 0.0f)
+        {
+            spriteRenderer.flipX = true;
+        }
     }
 }

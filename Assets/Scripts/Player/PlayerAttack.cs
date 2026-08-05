@@ -9,6 +9,10 @@ public class PlayerAttack : MonoBehaviour
     public float attackCoolTime = 1.0f;
     public int attackDamage = 1;
 
+    public float attackPointDistance = 0.6f;
+
+    private float attackDirection = 1.0f;
+
     private bool isAttacking = false;
     private bool canAttack = true;
     private float coolTimer = 0.0f;
@@ -19,10 +23,13 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
         UpdateCoolTimer();
+        UpdateAttackDirection();
+        UpdateAttackPointPosition();
         CheckAttackInput();
         ChangeCanAttack();
         ChangeAttackRange();
         ChangeDamage();
+        PrintAttackDirection();
     }
 
     void CheckAttackInput()
@@ -152,6 +159,40 @@ public class PlayerAttack : MonoBehaviour
         {
             attackDamage = 2;
             Debug.Log("데미지가 2로 변경되었습니다.");
+        }
+    }
+
+    void UpdateAttackDirection()
+    {
+        if (Input.GetKey(KeyCode.RightArrow) == true || Input.GetKey(KeyCode.D) == true)
+        {
+            attackDirection = 1.0f;
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow) == true || Input.GetKey(KeyCode.A) == true)
+        {
+            attackDirection = -1.0f;
+        }
+    }
+
+    void UpdateAttackPointPosition()
+    {
+        if (attackPoint == null)
+        {
+            return;
+        }
+
+        Vector3 localPosition = attackPoint.localPosition;
+        localPosition.x = attackDirection * attackPointDistance;
+        attackPoint.localPosition = localPosition;
+    }
+
+    void PrintAttackDirection()
+    {
+        if (Input.GetKeyDown(KeyCode.Y) == true)
+        {
+            Debug.Log("공격 방향: " + attackDirection);
+            Debug.Log("공격 기준 위치: " + attackPoint.position);
         }
     }
 }

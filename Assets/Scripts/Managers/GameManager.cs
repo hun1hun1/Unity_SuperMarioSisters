@@ -129,4 +129,19 @@ public class GameManager : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         Debug.Log("ÇöÀç ¾À: " + currentScene.name);
     }
+
+    public int GetPlayerHp()
+    {
+        return playerHp;
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
+    public int GetEnemyCount()
+    {
+        return remainingEnemyCount;
+    }
 }

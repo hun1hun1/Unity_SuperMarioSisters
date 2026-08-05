@@ -10,6 +10,9 @@ public class EnemyPatrol : MonoBehaviour
     private float moveDirection = 1.0f;
     private Animator enemyAnimator;
 
+    public SpriteRenderer enemyRenderer;
+    public bool spriteRight = true;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,6 +28,7 @@ public class EnemyPatrol : MonoBehaviour
         Move();
         // 이동 범위를 벗어났는지 확인.
         CheckTurn();
+        UpdateDirectionView();
 
         PrintStatus();
 
@@ -81,5 +85,41 @@ public class EnemyPatrol : MonoBehaviour
         }
 
         enemyAnimator.SetBool("IsMoving", isMoving);
+    }
+
+    void UpdateDirectionView()
+    {
+        if (spriteRight == true)
+        {
+            if (enemyRenderer == null)
+            {
+                return;
+            }
+
+            if (moveDirection > 0.0f)
+            {
+                enemyRenderer.flipX = false;
+            }
+            else if (moveDirection < 0.0f)
+            {
+                enemyRenderer.flipX = true;
+            }
+        }
+        else
+        {
+            if (enemyRenderer == null)
+            {
+                return;
+            }
+
+            if (moveDirection > 0.0f)
+            {
+                enemyRenderer.flipX = true;
+            }
+            else if (moveDirection < 0.0f)
+            {
+                enemyRenderer.flipX = false;
+            }
+        }
     }
 }
