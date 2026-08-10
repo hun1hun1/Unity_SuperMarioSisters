@@ -9,7 +9,7 @@ public class DisappearingPlatform : MonoBehaviour
     public Collider2D platformCollider;
 
     private float timer = 0.0f;
-    private bool isVisible = true;
+    public bool isVisible = true;
 
     // Update is called once per frame
     void Update()

@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public int score = 0;
     public int remainingEnemyCount = 0;
     public bool isGameCleared = false;
+    public bool hasKey = false;
 
     public string startSceneName = "StartScene";
     public string playSceneName = "PlayScene";
@@ -143,5 +144,15 @@ public class GameManager : MonoBehaviour
     public int GetEnemyCount()
     {
         return remainingEnemyCount;
+    }
+
+    public void SetHasKey()
+    {
+        hasKey = true;
+    }
+
+    public bool GetHasKey()
+    {
+        return hasKey;
     }
 }

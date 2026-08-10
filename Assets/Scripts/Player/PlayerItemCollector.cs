@@ -13,16 +13,25 @@ public class PlayerItemCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        DoorKey key;
+        key = other.GetComponent<DoorKey>();
         CollectibleItem item;
         item = other.GetComponent<CollectibleItem>();
 
-        if (item == null)
+        if (key != null)
         {
-            return;
+            key.Collect();
         }
+        else
+        {
+            if (item == null)
+            {
+                return;
+            }
 
-        AddScore(item.GetScoreValue());
-        item.Collect();
+            AddScore(item.GetScoreValue());
+            item.Collect();
+        }
     }
 
     public void AddScore(int scoreAmount)
