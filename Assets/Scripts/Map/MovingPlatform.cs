@@ -11,7 +11,8 @@ public class MovingPlatform : MonoBehaviour
     public bool onPlayerMove = false;
 
     private Vector3 startPosition;
-    private float moveDirection = 1.0f;
+    private float moveDirectionX = 1.0f;
+    private float moveDirectionY = 1.0f;
     private float timer = 0.0f;
     private bool isOnPlayer = false;
 
@@ -63,7 +64,7 @@ public class MovingPlatform : MonoBehaviour
 
     void MovePlatformX()
     {
-        Vector3 moveAmount = Vector3.right * moveDirection * moveSpeed * Time.deltaTime;
+        Vector3 moveAmount = Vector3.right * moveDirectionX * moveSpeed * Time.deltaTime;
 
         transform.position = transform.position + moveAmount;
     }
@@ -74,18 +75,18 @@ public class MovingPlatform : MonoBehaviour
 
         if (distanceFromStart > moveDistance)
         {
-            moveDirection = -1.0f;
+            moveDirectionX = -1.0f;
 
         }
         else if (distanceFromStart < -moveDistance)
         {
-            moveDirection = 1.0f;
+            moveDirectionX = 1.0f;
         }
     }
 
     void MovePlatformY()
     {
-        Vector3 moveAmount = Vector3.up * moveDirection * moveSpeed * Time.deltaTime;
+        Vector3 moveAmount = Vector3.up * moveDirectionY * moveSpeed * Time.deltaTime;
 
         transform.position = transform.position + moveAmount;
     }
@@ -96,12 +97,12 @@ public class MovingPlatform : MonoBehaviour
 
         if (distanceFromStart > moveDistance)
         {
-            moveDirection = -1.0f;
+            moveDirectionY = -1.0f;
 
         }
         else if (distanceFromStart < -moveDistance)
         {
-            moveDirection = 1.0f;
+            moveDirectionY = 1.0f;
         }
     }
 
