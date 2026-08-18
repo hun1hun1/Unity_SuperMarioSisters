@@ -18,7 +18,7 @@ public class ParallaxLayer : MonoBehaviour
     {
         Vector3 cameraMove = cameraTransform.position - previousCameraPosition;
         Vector3 backgroundMove = cameraMove * parallaxRatio;
-        backgroundMove.y = 0.0f;
+        backgroundMove.y = cameraMove.y;
         backgroundMove.z = 0.0f;
 
         transform.position = transform.position + backgroundMove;

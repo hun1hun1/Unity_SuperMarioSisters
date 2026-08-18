@@ -11,8 +11,9 @@ public class PlayerController : MonoBehaviour
     public int totalScore = 0;
 
     public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
+    public float groundCheckRadius = 0.1f;
     public LayerMask groundLayer;
+    public LayerMask enemyLayer;
 
     public GameManager gameManager;
 
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
     Collider2D playerCollider;
     SpriteRenderer spriteRenderer;
     Animator playerAnimator;
+    PlayerHealth playerHealth;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
         playerCollider = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerAnimator = GetComponent<Animator>();
+        playerHealth = GetComponent<PlayerHealth>();
 
         canMove = true;
     }
@@ -39,7 +42,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PrintGroundState();
         CheckInput();
         CheckGround();
         UpdateDirectionView();
@@ -90,14 +92,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) == true)
         {
             moveDirection = -1.0f;
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("현재 위치: " + transform.position);
-            Debug.Log("플레이어 체력: " + gameManager.GetPlayerHp());
-            Debug.Log("현재 점수: " + gameManager.GetScore());
-            Debug.Log("남은 적 수: " + gameManager.GetEnemyCount());
         }
     }
 
@@ -181,23 +175,70 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        isGrounded = true;
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        isGrounded = false;
-    }
-
-    void PrintGroundState()
-    {
-        if (Input.GetKeyDown(KeyCode.G) == true)
+        EnemyPatrol enemy = collision.gameObject.GetComponent<EnemyPatrol>();
+        if (enemy != null)
         {
-            Debug.Log("바닥에 닿아 있는가: " + isGrounded);
-            Debug.Log("현재 y 속도: " + playerBody.linearVelocity.y);
+            foreach (ContactPoint2D contact in collision.contacts)
+            {
+                if (contact.normal.y > 0.5f)
+                {
+                    enemy.DieProcess();
+                    return;
+                }
+            }
+
+            Collider2D enemyCollider = enemy.GetComponent<Collider2D>();
+            Physics2D.IgnoreCollision(playerCollider, enemyCollider, true);
+            //ApplyKnockback(enemy.transform);
+            playerHealth.TakeDamage(1);
+            Physics2D.IgnoreCollision(playerCollider, enemyCollider, false);
         }
+    }
+
+    //void ApplyKnockback(Transform enemy)
+    //{
+    //    float direction = transform.position.x - enemy.position.x;
+
+    //    if (direction > 0)
+    //    {
+    //        direction = 1.0f;
+    //    }
+    //    else
+    //    {
+    //        direction = -1.0f;
+    //    }
+
+    //    playerBody.linearVelocity = new Vector2(direction * 5.0f, 3.0f);
+    //}
+
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    EnemyPatrol enemy = collision.GetComponent<EnemyPatrol>();
+
+    //    if (enemy == null)
+    //        return;
+
+    //    Collider2D enemyCollider = Physics2D.OverlapCircle(
+    //        groundCheck.position,
+    //        groundCheckRadius,
+    //        enemyLayer
+    //    );
+
+    //    if (enemyCollider != null)
+    //    {
+    //        enemy.DieProcess();
+    //        return;
+    //    }
+
+    //    ApplyKnockback(enemy.transform);
+    //    playerHealth.TakeDamage(1);
+    //}
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 
     void UpdateDirectionView()

@@ -20,11 +20,19 @@ public class DisappearingPlatform : MonoBehaviour
         // 발판을 켜기/끄기 처리.
         if (isVisible == true)
         {
+            if (timer >= visibleTime * 0.5)
+            {
+                platformRenderer.color = Color.yellow;
+            }
+            else
+            {
+                platformRenderer.color = Color.white;
+            }
             CheckVisibleTime();
         }
         else
         {
-            if (timer >= hiddenTime * 0.3)
+            if (timer >= hiddenTime * 0.2)
             {
                 platformRenderer.color = Color.yellow;
             }

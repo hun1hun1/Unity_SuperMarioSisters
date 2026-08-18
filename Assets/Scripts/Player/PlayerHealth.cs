@@ -1,59 +1,36 @@
+using System.Collections;
 using UnityEngine;
-using TMPro;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHp = 5;
-    public TMP_Text hpText;
     public float invincibleTime = 1f;
+    public GameManager gameManager;
 
-    int currentHp = 0;
     bool isDead = false;
     bool isInvincible = false;
     float invincibleTimer = 0f;
+    private SpriteRenderer spriteRenderer;
 
-    void Start()
+    private void Start()
     {
-        currentHp = maxHp;
-        UpdateHpText();
-        PrintHealth();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdateInvincibleTimer();
-
-        if (Input.GetKeyDown(KeyCode.Alpha1) == true)
-        {
-            TakeDamage(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2) == true)
-        {
-            PrintHealth();
-        }
     }
 
     public void TakeDamage(int damageAmount)
     {
-        if (isDead == true)
-        {
-            return;
-        }
-
         if (isInvincible == true)
         {
             Debug.Log("무적 상태라서 데미지를 무시합니다.");
             return;
         }
 
-        currentHp = currentHp - damageAmount;
-
-        ClampHp();
-        UpdateHpText();
-        PrintHealth();
-        CheckDead();
+        gameManager.ChangePlayerHp(damageAmount);
 
         if (isDead == false)
         {
@@ -61,43 +38,37 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    void ClampHp()
-    {
-        if (currentHp < 0)
-        {
-            currentHp = 0;
-        }
+    //public void TakeDamage(int damageAmount)
+    //{
+    //    if (isInvincible == true)
+    //    {
+    //        Debug.Log("무적 상태라서 데미지를 무시합니다.");
+    //        return;
+    //    }
 
-        if (currentHp > maxHp)
-        {
-            currentHp = maxHp;
-        }
-    }
+    //    gameManager.ChangePlayerHp(damageAmount);
 
-    void UpdateHpText()
-    {
-        if (hpText == null)
-        {
-            Debug.Log("HP UI가 연결되지 않았습니다.");
-            return;
-        }
+    //    StartCoroutine(DamageCoroutine());
+    //}
 
-        hpText.text = "HP: " + currentHp;
-    }
+    //IEnumerator DamageCoroutine()
+    //{
+    //    isInvincible = true;
 
-    void CheckDead()
-    {
-        if (currentHp <= 0)
-        {
-            isDead = true;
-            Debug.Log("플레이어가 쓰러졌습니다.");
-        }
-    }
+    //    float timer = 0.0f;
 
-    void PrintHealth()
-    {
-        Debug.Log("현재 체력: " + currentHp + "/" + maxHp);
-    }
+    //    while (timer < invincibleTimer)
+    //    {
+    //        spriteRenderer.enabled = !spriteRenderer.enabled;
+
+    //        timer += Time.deltaTime;
+
+    //        yield return null;
+    //    }
+
+    //    spriteRenderer.enabled = true;
+    //    isInvincible = false;
+    //}
 
     void StartInvincible()
     {
@@ -113,25 +84,24 @@ public class PlayerHealth : MonoBehaviour
             return;
         }
 
+        spriteRenderer.enabled = !spriteRenderer.enabled;
         invincibleTimer = invincibleTimer - Time.deltaTime;
 
         if (invincibleTimer <= 0f)
         {
+            spriteRenderer.enabled = true;
             isInvincible = false;
             Debug.Log("무적 시간이 끝났습니다.");
         }
     }
 
-    public void ResetHealth()
-    {
-        currentHp = maxHp;
-        isDead = false;
-        isInvincible = false;
+    //public void ResetHealth()
+    //{
+    //    currentHp = maxHp;
+    //    isDead = false;
+    //    isInvincible = false;
 
-        invincibleTimer = 0.0f;
-        ClampHp();
-        UpdateHpText();
-        PrintHealth();
-        Debug.Log("체력이 초기화되었습니다.");
-    }
+    //    invincibleTimer = 0.0f;
+    //    Debug.Log("체력이 초기화되었습니다.");
+    //}
 }

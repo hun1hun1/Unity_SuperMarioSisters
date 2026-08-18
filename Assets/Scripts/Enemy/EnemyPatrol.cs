@@ -12,6 +12,9 @@ public class EnemyPatrol : MonoBehaviour
 
     public SpriteRenderer enemyRenderer;
     public bool spriteRight = true;
+    public PlayerScore playerScore;
+
+    public int scoreAmount = 5;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,6 +36,12 @@ public class EnemyPatrol : MonoBehaviour
         PrintStatus();
 
         UpdateAnimation();
+    }
+
+    public void DieProcess()
+    {
+        playerScore.CheckScore(scoreAmount);
+        gameObject.SetActive(false);
     }
 
     void Move()

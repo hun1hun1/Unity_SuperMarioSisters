@@ -1,15 +1,9 @@
 using UnityEngine;
-using TMPro;
 
 public class PlayerItemCollector : MonoBehaviour
 {
     public int totalScore = 0;
-    public TMP_Text scoreText;
-
-    void Start()
-    {
-        UpdateScoreText();
-    }
+    public PlayerScore playerScore;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -34,21 +28,26 @@ public class PlayerItemCollector : MonoBehaviour
         }
     }
 
+    //public void AddScore(int scoreAmount)
+    //{
+    //    totalScore = totalScore + scoreAmount;
+    //    Debug.Log("현재 점수: " + totalScore);
+    //    UpdateScoreText();
+    //}
+
     public void AddScore(int scoreAmount)
     {
-        totalScore = totalScore + scoreAmount;
-        Debug.Log("현재 점수: " + totalScore);
-        UpdateScoreText();
+        playerScore.CheckScore(scoreAmount);
     }
 
-    void UpdateScoreText()
-    {
-        if (scoreText == null)
-        {
-            Debug.Log("점수 UI가 연결되지 않았습니다.");
-            return;
-        }
+    //void UpdateScoreText()
+    //{
+    //    if (scoreText == null)
+    //    {
+    //        Debug.Log("점수 UI가 연결되지 않았습니다.");
+    //        return;
+    //    }
 
-        scoreText.text = "Score: " + totalScore;
-    }
+    //    scoreText.text = "Score: " + totalScore;
+    //}
 }

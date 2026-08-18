@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerRespawn : MonoBehaviour
 {
     public float fallLimitY = -10.0f;
+    public RespawnPlayer respawnPlayer;
 
     private Vector3 respawnPosition;
     private Rigidbody2D playerBody;
@@ -23,7 +24,6 @@ public class PlayerRespawn : MonoBehaviour
     {
         CheckFall();
         PassiveRespawn();
-        PrintRespawnPosition();
     }
 
     void CheckFall()
@@ -35,13 +35,20 @@ public class PlayerRespawn : MonoBehaviour
         }
     }
 
+    //public void Respawn()
+    //{
+    //    transform.position = respawnPosition;
+    //    // 기존 이동 멈춤.
+    //    StopVelocity();
+
+    //    //playerHealth.ResetHealth();
+    //    respawnCount++;
+    //    Debug.Log("리스폰 횟수: " + respawnCount);
+    //}
+
     public void Respawn()
     {
-        transform.position = respawnPosition;
-        // 기존 이동 멈춤.
-        StopVelocity();
-
-        playerHealth.ResetHealth();
+        respawnPlayer.RespawnP();
         respawnCount++;
         Debug.Log("리스폰 횟수: " + respawnCount);
     }
@@ -61,14 +68,6 @@ public class PlayerRespawn : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) == true)
         {
             Respawn();
-        }
-    }
-
-    void PrintRespawnPosition()
-    {
-        if (Input.GetKeyDown(KeyCode.C) == true)
-        {
-            Debug.Log("현재 체크포인트 위치: " + respawnPosition);
         }
     }
 }

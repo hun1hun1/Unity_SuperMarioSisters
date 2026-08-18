@@ -9,17 +9,19 @@ public class MovingPlatform : MonoBehaviour
     public bool moveY = false;
     public float stopTime = 2.0f;
     public bool onPlayerMove = false;
+    public bool rightFirst = true;
 
     private Vector3 startPosition;
     private float moveDirectionX = 1.0f;
     private float moveDirectionY = 1.0f;
-    private float timer = 0.0f;
+    //private float timer = 0.0f;
     private bool isOnPlayer = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        startPosition = transform.position;   
+        startPosition = transform.position;
+        if (rightFirst != true) moveDirectionX = -1.0f;
     }
 
     // Update is called once per frame
