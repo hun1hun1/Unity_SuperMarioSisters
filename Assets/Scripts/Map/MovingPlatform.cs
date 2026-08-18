@@ -10,10 +10,13 @@ public class MovingPlatform : MonoBehaviour
     public float stopTime = 2.0f;
     public bool onPlayerMove = false;
     public bool rightFirst = true;
+    public bool onlyRight = false;
 
     private Vector3 startPosition;
     private float moveDirectionX = 1.0f;
     private float moveDirectionY = 1.0f;
+    private float initialDirectionX;
+    private float initialDirectionY;
     //private float timer = 0.0f;
     private bool isOnPlayer = false;
 
@@ -22,6 +25,8 @@ public class MovingPlatform : MonoBehaviour
     {
         startPosition = transform.position;
         if (rightFirst != true) moveDirectionX = -1.0f;
+        initialDirectionX = moveDirectionX;
+        initialDirectionY = moveDirectionY;
     }
 
     // Update is called once per frame
@@ -77,8 +82,14 @@ public class MovingPlatform : MonoBehaviour
 
         if (distanceFromStart > moveDistance)
         {
-            moveDirectionX = -1.0f;
-
+            if (onlyRight == true)
+            {
+                moveDirectionX = 0.0f;
+            }
+            else
+            {
+                moveDirectionX = -1.0f;
+            }
         }
         else if (distanceFromStart < -moveDistance)
         {
@@ -106,6 +117,13 @@ public class MovingPlatform : MonoBehaviour
         {
             moveDirectionY = 1.0f;
         }
+    }
+
+    public void GoToStart()
+    {
+        transform.position = startPosition;
+        moveDirectionX = initialDirectionX;
+        moveDirectionY = initialDirectionY;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

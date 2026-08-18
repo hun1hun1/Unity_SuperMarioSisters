@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     public bool isGameCleared = false;
     public bool hasKey = false;
     public bool isPlayerDead = false;
-    public PlayerController playerController;
 
     public string startSceneName = "StartScene";
     public string playSceneName = "PlayScene";

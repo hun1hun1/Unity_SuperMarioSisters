@@ -14,12 +14,15 @@ public class PlayerController : MonoBehaviour
     public float groundCheckRadius = 0.1f;
     public LayerMask groundLayer;
     public LayerMask enemyLayer;
+    public float portalCooldown = 1.0f;
 
     public GameManager gameManager;
 
     float moveDirection = 0.0f;
 
     bool isGrounded = false;
+    private bool canUsePortal = true;
+    private float timer = 0.0f;
 
     Rigidbody2D playerBody;
     Collider2D playerCollider;
@@ -145,7 +148,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) == true)
+        if (Input.GetKeyDown(KeyCode.LeftShift) == true)
         {
             if (isGrounded == true)
             {
@@ -197,6 +200,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool CanUsePortal()
+    {
+        return canUsePortal;
+    }
+
+    public void SetPortalCooldown()
+    {
+        canUsePortal = false;
+
+        Invoke("EnablePortal", portalCooldown);
+    }
+
+    public void EnablePortal()
+    {
+        canUsePortal = true;
+    }
+
     //void ApplyKnockback(Transform enemy)
     //{
     //    float direction = transform.position.x - enemy.position.x;
@@ -210,7 +230,7 @@ public class PlayerController : MonoBehaviour
     //        direction = -1.0f;
     //    }
 
-    //    playerBody.linearVelocity = new Vector2(direction * 5.0f, 3.0f);
+    //    playerBody.linearVelocity = new Vector2(direction * 20.0f, playerBody.linearVelocity.y);
     //}
 
     //private void OnTriggerStay2D(Collider2D collision)

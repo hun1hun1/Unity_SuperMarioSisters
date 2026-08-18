@@ -8,18 +8,21 @@ public class RespawnPlayer : MonoBehaviour
     private Vector3 respawnPosition;
     private CheckPoint currentCheckPoint;
     private GameManager gameManager;
+    private RespawnPlatform respawnPlatform;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gameManager = GetComponent<GameManager>();
+        respawnPlatform = GetComponent<RespawnPlatform>();
         respawnPosition = transform.position;
     }
 
     public void RespawnP()
     {
-        playerTransform.position = respawnPosition;
+        respawnPlatform.RespawnListedPlatform();
         StopVelocity();
+        playerTransform.position = respawnPosition;
         gameManager.HpRespawn();
     }
 

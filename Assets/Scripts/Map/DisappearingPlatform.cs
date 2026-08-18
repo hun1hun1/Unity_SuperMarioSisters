@@ -1,21 +1,50 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class DisappearingPlatform : MonoBehaviour
 {
     public float visibleTime = 2.0f;
     public float hiddenTime = 1.0f;
+    public bool sleepOnStart = false;
+    public float sleepTime = 0.0f;
 
     public SpriteRenderer platformRenderer;
     public Collider2D platformCollider;
 
     private float timer = 0.0f;
+    private bool initialSleepStart = false;
     public bool isVisible = true;
+
+    private void Start()
+    {
+        if (sleepOnStart == true)
+        {
+            SetPlatformVisible(false);
+            isVisible = false;
+            platformRenderer.enabled = false;
+            platformCollider.enabled = false;
+            initialSleepStart = sleepOnStart;
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
         // Time.deltaTime : 이전 프레임과 현재 프레임 사이의 시간 간격 -> 초 단위.
         timer += Time.deltaTime;
+
+        if (sleepOnStart == true)
+        {
+            if (timer >= sleepTime)
+            {
+                sleepOnStart = false;
+                timer = 0.0f;
+            }
+            else
+            {
+                return;
+            }
+        }
 
         // 발판을 켜기/끄기 처리.
         if (isVisible == true)
@@ -64,6 +93,17 @@ public class DisappearingPlatform : MonoBehaviour
         isVisible = value;
         platformRenderer.enabled = value;
         platformCollider.enabled = value;
+    }
+
+    public void GoToStart()
+    {
+        sleepOnStart = initialSleepStart;
+        SetPlatformVisible(false);
+        isVisible = false;
+        platformRenderer.enabled = false;
+        platformCollider.enabled = false;
+        platformRenderer.color = Color.white;
+        timer = 0.0f;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
