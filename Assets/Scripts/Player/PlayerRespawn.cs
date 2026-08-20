@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerRespawn : MonoBehaviour
 {
-    public float fallLimitY = -10.0f;
+    public float fallLimitY = -20.0f;
     public RespawnPlayer respawnPlayer;
 
     private Vector3 respawnPosition;

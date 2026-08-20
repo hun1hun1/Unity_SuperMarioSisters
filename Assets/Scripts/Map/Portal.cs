@@ -3,7 +3,7 @@ using UnityEngine;
 public class Portal : MonoBehaviour
 {
     public Transform outPortal;
-    public float yOffset = 0.0f;
+    //public float yOffset = 0.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnTriggerEnter2D(Collider2D collision)
@@ -16,6 +16,6 @@ public class Portal : MonoBehaviour
 
         player.SetPortalCooldown();
 
-        player.transform.position = new Vector3(outPortal.position.x, outPortal.position.y - yOffset, outPortal.position.z);
+        player.transform.position = new Vector3(outPortal.position.x, outPortal.position.y, outPortal.position.z);
     }
 }
